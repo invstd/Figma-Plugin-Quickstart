@@ -338,16 +338,21 @@ fontSize: '10px', lineHeight: '16px'
 ### Font Weights
 
 ```typescript
-fontWeight: '400'  // Regular (default)
+fontWeight: '400'  // Regular (default for body text)
 fontWeight: '500'  // Medium (subtle emphasis)
 fontWeight: '600'  // Semibold (headers, strong emphasis)
-fontWeight: '700'  // Bold (rarely needed)
 ```
 
 **❌ Never use:**
 - `font-family` - Figma provides the correct font automatically
-- Custom line-height values - stick to 16px or 24px
-- Font sizes outside the standard scale
+- Font sizes outside the standard scale (11px, 12px, 13px)
+- Line heights other than 16px or 20px
+- Custom line-height values without corresponding font size
+
+**✅ Always:**
+- Specify both `fontSize` and `lineHeight` together
+- Use the exact pairings from the table above
+- Default to 11px/16px for body text
 
 ---
 
@@ -457,8 +462,19 @@ onMouseLeave={(e) => {
 
 **✅ Correct:**
 ```typescript
-<Text style={{ fontSize: '11px', lineHeight: '16px' }}>
+<Text style={{ 
+  fontSize: '11px', 
+  lineHeight: '16px'  // Always specify matching line height
+}}>
   Text with proper line height
+</Text>
+
+// Section header with correct pairing
+<Text style={{ 
+  fontSize: '13px', 
+  lineHeight: '20px'  // 13px uses 20px line height, not 16px!
+}}>
+  Section Header
 </Text>
 ```
 
@@ -522,8 +538,9 @@ Before considering a plugin UI complete, verify:
 - [ ] Hover states use `--figma-color-bg-hover`
 
 **Typography:**
-- [ ] Font sizes are 10px, 11px, 13px, or 16px only
-- [ ] All text has explicit `lineHeight` (16px or 24px)
+- [ ] Font sizes are 11px, 12px, or 13px only
+- [ ] All text has explicit `lineHeight` (16px or 20px)
+- [ ] Correct font/line-height pairings: 11px→16px, 12px→16px, 13px→20px
 - [ ] Font weights are 400, 500, or 600 only
 - [ ] No custom font families
 
@@ -579,7 +596,7 @@ function Plugin() {
           <Text style={{ 
             fontSize: '13px', 
             fontWeight: '600',
-            lineHeight: '16px'
+            lineHeight: '20px'  // 13px uses 20px line height
           }}>
             Plugin Title
           </Text>

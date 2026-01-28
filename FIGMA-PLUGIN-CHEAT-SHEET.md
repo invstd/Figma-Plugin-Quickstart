@@ -93,6 +93,42 @@ borderColor: 'var(--figma-color-border-strong)'  // Emphasized border
 
 ---
 
+## 📏 Typography Reference
+
+**⚠️ IMPORTANT:** Figma does NOT provide CSS variables for typography. Use these fixed values:
+
+### Figma's Standard Typography Scale
+
+| Font Size | Line Height | Usage | Font Weight |
+|-----------|-------------|-------|-------------|
+| `11px` | `16px` | Body text, labels | `400` (default) |
+| `12px` | `16px` | Slightly larger body | `400` |
+| `13px` | `20px` | Section headers | `600` |
+
+### Examples
+```typescript
+// Body text (most common)
+style={{ fontSize: '11px', lineHeight: '16px', fontWeight: '400' }}
+
+// Section header
+style={{ fontSize: '13px', lineHeight: '20px', fontWeight: '600' }}
+
+// Slightly larger body
+style={{ fontSize: '12px', lineHeight: '16px', fontWeight: '400' }}
+```
+
+**Font Weights:**
+- `400` - Regular (body text)
+- `500` - Medium (subtle emphasis)
+- `600` - Semibold (headers)
+
+**❌ Never:**
+- Use custom `font-family`
+- Mix wrong font-size/line-height pairs
+- Omit `lineHeight`
+
+---
+
 ## 📡 UI ↔ Backend Communication
 
 ### Send from UI to Backend

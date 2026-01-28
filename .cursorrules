@@ -74,12 +74,28 @@ Always pair semantic backgrounds with their matching "on" text colors for proper
 ### Rule 2: Always Specify Line Height
 **EVERY** text element MUST have an explicit `lineHeight`.
 
+**⚠️ IMPORTANT:** Figma does NOT provide CSS variables for typography. Use fixed values.
+
+**Figma's Standard Typography Scale:**
+
+| Font Size | Line Height | Usage |
+|-----------|-------------|-------|
+| `11px` | `16px` | Body text, labels (DEFAULT) |
+| `12px` | `16px` | Slightly larger body |
+| `13px` | `20px` | Section headers |
+
 ```typescript
-// ✅ CORRECT
+// ✅ CORRECT - body text
 style={{ fontSize: '11px', lineHeight: '16px' }}
 
-// ❌ WRONG - will look cramped/broken
+// ✅ CORRECT - section header
+style={{ fontSize: '13px', lineHeight: '20px' }}
+
+// ❌ WRONG - missing line height
 style={{ fontSize: '11px' }}
+
+// ❌ WRONG - incorrect line height for 13px
+style={{ fontSize: '13px', lineHeight: '16px' }}
 ```
 
 ### Rule 3: Use Framework Spacing System
@@ -146,25 +162,27 @@ Use `Container`, `Stack`, `VerticalSpace` from `@create-figma-plugin/ui`. **NEVE
 
 ## 📏 TYPOGRAPHY STANDARDS
 
+**⚠️ IMPORTANT:** Figma does NOT provide CSS variables for typography. Use fixed values only.
+
 ### Font Sizes (stick to these ONLY)
-- `16px` - Large headers (rare)
-- `13px` - Section headers (lineHeight: '16px', fontWeight: '600')
-- `11px` - Body text DEFAULT (lineHeight: '16px', fontWeight: '400')
-- `10px` - Small text (lineHeight: '16px')
+- `11px` - Body text, labels (DEFAULT) - lineHeight: '16px'
+- `12px` - Slightly larger body - lineHeight: '16px'
+- `13px` - Section headers - lineHeight: '20px'
 
 ### Font Weights (use these ONLY)
-- `400` - Regular (default)
+- `400` - Regular (default for body text)
 - `500` - Medium (subtle emphasis)
 - `600` - Semibold (headers)
 
 ### Line Heights (use these ONLY)
-- `16px` - Standard (DEFAULT)
-- `24px` - Large headers only
+- `16px` - For 11px and 12px font sizes
+- `20px` - For 13px font size
 
 **NEVER:**
 - Use custom `font-family`
 - Use font sizes outside this scale
 - Omit `lineHeight`
+- Mix wrong font-size/line-height pairs
 
 ---
 
@@ -304,8 +322,9 @@ Before considering code complete, verify:
 - [ ] Hover states use `--figma-color-bg-hover`
 
 **Typography:**
-- [ ] Font sizes: 10px, 11px, 13px, or 16px ONLY
-- [ ] ALL text has explicit `lineHeight` (16px or 24px)
+- [ ] Font sizes: 11px, 12px, or 13px ONLY
+- [ ] ALL text has explicit `lineHeight` (16px or 20px)
+- [ ] Correct pairings: 11px→16px, 12px→16px, 13px→20px
 - [ ] Font weights: 400, 500, or 600 ONLY
 - [ ] NO custom font families
 
@@ -379,13 +398,13 @@ function Plugin() {
         <Container space="medium">
           <Stack space="medium">
             
-            <Text style={{ 
-              fontSize: '13px', 
-              fontWeight: '600',
-              lineHeight: '16px'
-            }}>
-              Section Title
-            </Text>
+          <Text style={{ 
+            fontSize: '13px', 
+            fontWeight: '600',
+            lineHeight: '20px'  // 13px uses 20px, not 16px!
+          }}>
+            Section Title
+          </Text>
             
             <Stack space="small">
               <Text style={{ 

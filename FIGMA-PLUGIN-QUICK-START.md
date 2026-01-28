@@ -401,15 +401,13 @@ npm run watch
 
 For complete design guidelines, see [FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md).
 
+### Colors
 ```typescript
 // ✅ Correct - adapts to light/dark mode
 style={{ 
   color: 'var(--figma-color-text)',
   backgroundColor: 'var(--figma-color-bg-secondary)',
-  border: '1px solid var(--figma-color-border)',
-  fontSize: '11px',           // Standard body text size
-  lineHeight: '16px',         // ALWAYS specify line height
-  fontWeight: '400'           // Regular weight
+  border: '1px solid var(--figma-color-border)'
 }}
 
 // ❌ Wrong - hardcoded colors break in dark mode
@@ -418,6 +416,38 @@ style={{
   backgroundColor: '#f5f5f5',
   border: '1px solid #ddd'
 }}
+```
+
+### Typography
+
+**⚠️ IMPORTANT:** Figma does NOT provide CSS variables for typography. Use these fixed values:
+
+| Font Size | Line Height | Usage |
+|-----------|-------------|-------|
+| `11px` | `16px` | Body text, labels (DEFAULT) |
+| `12px` | `16px` | Slightly larger body |
+| `13px` | `20px` | Section headers |
+
+```typescript
+// ✅ Correct - body text with proper line height
+style={{ 
+  fontSize: '11px',
+  lineHeight: '16px',
+  fontWeight: '400'
+}}
+
+// ✅ Correct - section header
+style={{ 
+  fontSize: '13px',
+  lineHeight: '20px',  // 13px uses 20px, not 16px!
+  fontWeight: '600'
+}}
+
+// ❌ Wrong - missing line height
+style={{ fontSize: '11px' }}
+
+// ❌ Wrong - incorrect line height for 13px
+style={{ fontSize: '13px', lineHeight: '16px' }}
 ```
 
 **Common Variables:**
