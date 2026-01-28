@@ -32,6 +32,45 @@ backgroundColor: '#f5f5f5'
 borderColor: '#ddd'
 ```
 
+**⚠️ CRITICAL: Use Correct "On" Colors with Semantic Backgrounds**
+
+Always pair semantic backgrounds with their matching "on" text colors for proper contrast:
+
+```typescript
+// ✅ CORRECT - proper color pairing
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text-onsuccess)'
+}}>Success</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-warning)',
+  color: 'var(--figma-color-text-onwarning)'
+}}>Warning</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-danger)',
+  color: 'var(--figma-color-text-ondanger)'
+}}>Error</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-brand)',
+  color: 'var(--figma-color-text-onbrand)'
+}}>Brand</div>
+
+// ❌ WRONG - broken contrast!
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text)'  // Wrong!
+}}>
+```
+
+**Required Color Pairings:**
+- `--figma-color-bg-success` → `--figma-color-text-onsuccess`
+- `--figma-color-bg-warning` → `--figma-color-text-onwarning`
+- `--figma-color-bg-danger` → `--figma-color-text-ondanger`
+- `--figma-color-bg-brand` → `--figma-color-text-onbrand`
+
 ### Rule 2: Always Specify Line Height
 **EVERY** text element MUST have an explicit `lineHeight`.
 
@@ -79,8 +118,11 @@ Use `Container`, `Stack`, `VerticalSpace` from `@create-figma-plugin/ui`. **NEVE
 - `var(--figma-color-text-tertiary)` - Subtle information
 - `var(--figma-color-text-disabled)` - Disabled states
 - `var(--figma-color-text-brand)` - Accent/emphasis
-- `var(--figma-color-text-onbrand)` - Text on brand backgrounds
+- `var(--figma-color-text-onbrand)` - MUST use with bg-brand
 - `var(--figma-color-text-oncomponent)` - Text on colored backgrounds
+- `var(--figma-color-text-onsuccess)` - MUST use with bg-success
+- `var(--figma-color-text-onwarning)` - MUST use with bg-warning
+- `var(--figma-color-text-ondanger)` - MUST use with bg-danger
 
 ### Background Colors (use these ONLY)
 - `var(--figma-color-bg)` - Main background
@@ -258,6 +300,7 @@ Before considering code complete, verify:
 **Colors:**
 - [ ] All colors use `var(--figma-color-*)` tokens
 - [ ] Zero hardcoded hex/rgb/hsl colors
+- [ ] Semantic backgrounds paired with correct "on" text colors
 - [ ] Hover states use `--figma-color-bg-hover`
 
 **Typography:**

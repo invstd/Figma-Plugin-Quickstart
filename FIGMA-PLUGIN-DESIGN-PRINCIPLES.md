@@ -58,6 +58,39 @@ style={{
 }}
 ```
 
+**⚠️ CRITICAL: Use Correct Text Colors on Semantic Backgrounds**
+
+When using colored backgrounds (success, warning, danger, brand), you MUST use the matching "on" text color for proper contrast:
+
+```typescript
+// ✅ CORRECT - proper color pairing
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text-onsuccess)'  // Matches success background
+}}>Success message</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-warning)',
+  color: 'var(--figma-color-text-onwarning)'  // Matches warning background
+}}>Warning message</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-danger)',
+  color: 'var(--figma-color-text-ondanger)'  // Matches danger background
+}}>Error message</div>
+
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-brand)',
+  color: 'var(--figma-color-text-onbrand)'  // Matches brand background
+}}>Brand element</div>
+
+// ❌ WRONG - broken contrast!
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text)'  // Wrong! Low contrast
+}}>
+```
+
 ### 2. Use @create-figma-plugin Spacing System
 
 **❌ NEVER do this:**
@@ -136,12 +169,29 @@ color: 'var(--figma-color-text-disabled)'
 // Brand/accent text - use sparingly for emphasis
 color: 'var(--figma-color-text-brand)'
 
-// On-brand text - use for text on brand backgrounds
+// On-brand text - MUST use with --figma-color-bg-brand background
 color: 'var(--figma-color-text-onbrand)'
 
 // On-component text - use for text on colored backgrounds
 color: 'var(--figma-color-text-oncomponent)'
+
+// On-success text - MUST use with --figma-color-bg-success background
+color: 'var(--figma-color-text-onsuccess)'
+
+// On-warning text - MUST use with --figma-color-bg-warning background
+color: 'var(--figma-color-text-onwarning)'
+
+// On-danger text - MUST use with --figma-color-bg-danger background
+color: 'var(--figma-color-text-ondanger)'
 ```
+
+**⚠️ CRITICAL COLOR PAIRING RULES:**
+
+Always use matching "on" colors with semantic backgrounds:
+- `--figma-color-bg-success` → `--figma-color-text-onsuccess`
+- `--figma-color-bg-warning` → `--figma-color-text-onwarning`
+- `--figma-color-bg-danger` → `--figma-color-text-ondanger`
+- `--figma-color-bg-brand` → `--figma-color-text-onbrand`
 
 ### Background Colors (ALWAYS use these!)
 
@@ -421,6 +471,12 @@ onMouseLeave={(e) => {
   backgroundColor: '#f0f0f0',
   color: '#999'
 }}>
+
+// Wrong color pairing - broken contrast
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text)'  // Wrong! Use text-onsuccess
+}}>
 ```
 
 **✅ Correct:**
@@ -429,6 +485,12 @@ onMouseLeave={(e) => {
 <div style={{ 
   backgroundColor: 'var(--figma-color-bg-secondary)',
   color: 'var(--figma-color-text)'
+}}>
+
+// Correct color pairing for semantic backgrounds
+<div style={{ 
+  backgroundColor: 'var(--figma-color-bg-success)',
+  color: 'var(--figma-color-text-onsuccess)'  // Correct!
 }}>
 ```
 
@@ -456,6 +518,7 @@ Before considering a plugin UI complete, verify:
 - [ ] All colors use `var(--figma-color-*)` tokens
 - [ ] No hardcoded hex, rgb, or hsl colors
 - [ ] Text has proper contrast in both light and dark modes
+- [ ] Semantic backgrounds use matching "on" text colors (onsuccess, onwarning, ondanger, onbrand)
 - [ ] Hover states use `--figma-color-bg-hover`
 
 **Typography:**

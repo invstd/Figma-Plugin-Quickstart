@@ -58,7 +58,19 @@ color: 'var(--figma-color-text-secondary)'    // Secondary text
 color: 'var(--figma-color-text-tertiary)'     // Tertiary text
 color: 'var(--figma-color-text-disabled)'     // Disabled text
 color: 'var(--figma-color-text-brand)'        // Brand/accent text
+
+// IMPORTANT: Use matching "on" colors with semantic backgrounds!
+color: 'var(--figma-color-text-onbrand)'      // With bg-brand
+color: 'var(--figma-color-text-onsuccess)'    // With bg-success
+color: 'var(--figma-color-text-onwarning)'    // With bg-warning
+color: 'var(--figma-color-text-ondanger)'     // With bg-danger
 ```
+
+**⚠️ Critical Color Pairing Rules:**
+- `bg-success` → `text-onsuccess`
+- `bg-warning` → `text-onwarning`
+- `bg-danger` → `text-ondanger`
+- `bg-brand` → `text-onbrand`
 
 ### Background Colors
 ```typescript
@@ -416,6 +428,7 @@ try {
   <div style={{ 
     padding: '12px', 
     backgroundColor: 'var(--figma-color-bg-danger)',
+    color: 'var(--figma-color-text-ondanger)',  // Correct pairing!
     borderRadius: '6px'
   }}>
     <Text>{error}</Text>
@@ -440,6 +453,7 @@ const showToast = (message: string) => {
     right: '16px',
     padding: '12px',
     backgroundColor: 'var(--figma-color-bg-success)',
+    color: 'var(--figma-color-text-onsuccess)',  // Correct pairing!
     borderRadius: '6px'
   }}>
     {toast}
