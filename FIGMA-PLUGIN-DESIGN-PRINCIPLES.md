@@ -16,6 +16,26 @@ When building Figma plugin UIs, you MUST follow Figma's design system to ensure:
 
 ## 🚨 Critical Rules (Never Break These!)
 
+### 0. Enable Theme Colors in showUI (MANDATORY!)
+
+**⚠️ CRITICAL:** You MUST enable theme colors when showing the UI, or none of the CSS variables will work!
+
+```typescript
+import { showUI } from '@create-figma-plugin/utilities';
+
+export default function () {
+  // ✅ CORRECT - enables Figma design tokens
+  showUI({ width: 400, height: 500 }, { themeColors: true });
+  
+  // ❌ WRONG - CSS variables won't work!
+  showUI({ width: 400, height: 500 });
+}
+```
+
+Without `{ themeColors: true }`, all `var(--figma-color-*)` variables will be undefined and your plugin will look broken!
+
+---
+
 ### 1. ALWAYS Use Figma Design Tokens for Colors
 
 **❌ NEVER do this:**

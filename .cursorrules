@@ -1,0 +1,417 @@
+# Figma Plugin Development Rules for AI Assistants
+
+These rules MUST be followed when building Figma plugins. Violations will result in broken UI, poor contrast, and unprofessional appearance.
+
+---
+
+## 🚨 CRITICAL RULES (NEVER BREAK THESE)
+
+### Rule 0: Enable Theme Colors
+**MANDATORY:** Always call `showUI` with `{ themeColors: true }` or CSS variables won't work!
+
+```typescript
+// ✅ CORRECT
+showUI({ width: 400, height: 500 }, { themeColors: true });
+
+// ❌ WRONG - CSS variables will be undefined!
+showUI({ width: 400, height: 500 });
+```
+
+### Rule 1: NEVER Use Hardcoded Colors
+**ALWAYS** use Figma design tokens. **NEVER** use hex, rgb, hsl, or named colors.
+
+```typescript
+// ✅ CORRECT
+color: 'var(--figma-color-text)'
+backgroundColor: 'var(--figma-color-bg-secondary)'
+borderColor: 'var(--figma-color-border)'
+
+// ❌ WRONG - will break in dark mode!
+color: '#333'
+backgroundColor: '#f5f5f5'
+borderColor: '#ddd'
+```
+
+### Rule 2: Always Specify Line Height
+**EVERY** text element MUST have an explicit `lineHeight`.
+
+```typescript
+// ✅ CORRECT
+style={{ fontSize: '11px', lineHeight: '16px' }}
+
+// ❌ WRONG - will look cramped/broken
+style={{ fontSize: '11px' }}
+```
+
+### Rule 3: Use Framework Spacing System
+Use `Container`, `Stack`, `VerticalSpace` from `@create-figma-plugin/ui`. **NEVER** use arbitrary padding/margin values.
+
+```typescript
+// ✅ CORRECT
+<Container space="medium">
+  <Stack space="small">
+    {/* content */}
+  </Stack>
+</Container>
+
+// ❌ WRONG - arbitrary values
+<div style={{ padding: '12px', marginBottom: '8px' }}>
+```
+
+### Rule 4: Proper Bottom Padding
+**ALWAYS** add bottom padding to scrollable content.
+
+```typescript
+// ✅ CORRECT
+<div className="custom-scroll-content" style={{ paddingBottom: '16px' }}>
+
+// ❌ WRONG - content will touch bottom
+<div className="custom-scroll-content">
+```
+
+---
+
+## 📐 DESIGN TOKEN REFERENCE
+
+### Text Colors (use these ONLY)
+- `var(--figma-color-text)` - Primary text
+- `var(--figma-color-text-secondary)` - Labels, descriptions
+- `var(--figma-color-text-tertiary)` - Subtle information
+- `var(--figma-color-text-disabled)` - Disabled states
+- `var(--figma-color-text-brand)` - Accent/emphasis
+- `var(--figma-color-text-onbrand)` - Text on brand backgrounds
+- `var(--figma-color-text-oncomponent)` - Text on colored backgrounds
+
+### Background Colors (use these ONLY)
+- `var(--figma-color-bg)` - Main background
+- `var(--figma-color-bg-secondary)` - Cards, containers
+- `var(--figma-color-bg-tertiary)` - Nested containers
+- `var(--figma-color-bg-hover)` - Hover states
+- `var(--figma-color-bg-brand)` - Primary actions
+- `var(--figma-color-bg-brand-secondary)` - Secondary brand
+- `var(--figma-color-bg-brand-tertiary)` - Subtle brand
+- `var(--figma-color-bg-success)` - Success states
+- `var(--figma-color-bg-warning)` - Warning states
+- `var(--figma-color-bg-danger)` - Error states
+
+### Border Colors (use these ONLY)
+- `var(--figma-color-border)` - Standard borders
+- `var(--figma-color-border-strong)` - Emphasized borders
+- `var(--figma-color-border-brand)` - Accent borders
+- `var(--figma-color-border-disabled)` - Disabled borders
+
+---
+
+## 📏 TYPOGRAPHY STANDARDS
+
+### Font Sizes (stick to these ONLY)
+- `16px` - Large headers (rare)
+- `13px` - Section headers (lineHeight: '16px', fontWeight: '600')
+- `11px` - Body text DEFAULT (lineHeight: '16px', fontWeight: '400')
+- `10px` - Small text (lineHeight: '16px')
+
+### Font Weights (use these ONLY)
+- `400` - Regular (default)
+- `500` - Medium (subtle emphasis)
+- `600` - Semibold (headers)
+
+### Line Heights (use these ONLY)
+- `16px` - Standard (DEFAULT)
+- `24px` - Large headers only
+
+**NEVER:**
+- Use custom `font-family`
+- Use font sizes outside this scale
+- Omit `lineHeight`
+
+---
+
+## 🎨 SPACING SYSTEM
+
+Use framework spacing values ONLY:
+- `extraSmall` - 4px
+- `small` - 8px
+- `medium` - 16px
+- `large` - 24px
+- `extraLarge` - 32px
+
+```typescript
+<Container space="medium">      // 16px padding
+  <Stack space="small">          // 8px between items
+    <VerticalSpace space="large" />  // 24px explicit spacing
+  </Stack>
+</Container>
+```
+
+---
+
+## 🏗️ LAYOUT PATTERNS
+
+### Full-Height Plugin Layout
+```typescript
+<div style={{ 
+  display: 'flex', 
+  flexDirection: 'column', 
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundColor: 'var(--figma-color-bg)'  // REQUIRED
+}}>
+  <div className="custom-scroll-container" style={{ flex: 1, position: 'relative' }}>
+    <div className="custom-scroll-content" style={{ paddingBottom: '16px' }}>
+      <Container space="medium">
+        {/* content */}
+      </Container>
+    </div>
+  </div>
+</div>
+```
+
+### Border Radius (use these ONLY)
+- `6px` - Standard (cards, containers)
+- `4px` - Small elements (badges, tags)
+
+---
+
+## 🔘 COMPONENT PATTERNS
+
+### Use Framework Components
+**ALWAYS** use components from `@create-figma-plugin/ui`:
+- `Button` - for all buttons
+- `Textbox` - for all text inputs
+- `Dropdown` - for all dropdowns
+- `Text`, `Muted` - for text
+- `Container`, `Stack`, `Inline`, `VerticalSpace` - for layout
+
+### Button Pattern
+```typescript
+import { Button } from '@create-figma-plugin/ui';
+
+<Button onClick={handleAction}>Primary</Button>
+<Button onClick={handleAction} secondary>Secondary</Button>
+<Button onClick={handleAction} fullWidth>Full Width</Button>
+<Button onClick={handleAction} disabled>Disabled</Button>
+```
+
+### Input Pattern with Label
+```typescript
+<Stack space="small">
+  <Text style={{ fontSize: '11px', fontWeight: '500' }}>
+    Label
+  </Text>
+  <Textbox
+    value={value}
+    placeholder="Enter text..."
+    onValueInput={setValue}
+  />
+</Stack>
+```
+
+---
+
+## ⚠️ COMMON MISTAKES TO AVOID
+
+### ❌ Missing themeColors
+```typescript
+showUI({ width: 400, height: 500 }); // WRONG!
+```
+
+### ❌ Hardcoded Colors
+```typescript
+style={{ color: '#333', backgroundColor: '#f5f5f5' }} // WRONG!
+```
+
+### ❌ Missing Line Height
+```typescript
+style={{ fontSize: '11px' }} // WRONG!
+```
+
+### ❌ Arbitrary Spacing
+```typescript
+style={{ padding: '12px', marginBottom: '8px' }} // WRONG!
+```
+
+### ❌ No Bottom Padding
+```typescript
+<div className="custom-scroll-content">  // WRONG!
+```
+
+### ❌ Wrong Font Sizes
+```typescript
+style={{ fontSize: '14px' }} // WRONG! Use 11px or 13px
+```
+
+### ❌ Custom Fonts
+```typescript
+style={{ fontFamily: 'Arial' }} // WRONG! Never set font-family
+```
+
+---
+
+## ✅ PRE-FLIGHT CHECKLIST
+
+Before considering code complete, verify:
+
+**Backend:**
+- [ ] `showUI` called with `{ themeColors: true }`
+- [ ] Proper event handlers with `on()` and `emit()`
+
+**Colors:**
+- [ ] All colors use `var(--figma-color-*)` tokens
+- [ ] Zero hardcoded hex/rgb/hsl colors
+- [ ] Hover states use `--figma-color-bg-hover`
+
+**Typography:**
+- [ ] Font sizes: 10px, 11px, 13px, or 16px ONLY
+- [ ] ALL text has explicit `lineHeight` (16px or 24px)
+- [ ] Font weights: 400, 500, or 600 ONLY
+- [ ] NO custom font families
+
+**Spacing:**
+- [ ] Uses `Container`, `Stack`, `VerticalSpace`
+- [ ] NO arbitrary padding/margin values
+- [ ] Bottom padding on scrollable content (16px minimum)
+- [ ] Spacing uses extraSmall/small/medium/large/extraLarge
+
+**Layout:**
+- [ ] Main container is `height: 100vh`
+- [ ] Scrollable content uses `custom-scroll-container` pattern
+- [ ] Background color explicitly set
+- [ ] Border radius is 6px or 4px ONLY
+
+---
+
+## 📚 REQUIRED IMPORTS
+
+### UI Components
+```typescript
+import { 
+  render, 
+  Button, 
+  Textbox, 
+  Dropdown,
+  Text, 
+  Muted,
+  Container, 
+  Stack, 
+  Inline, 
+  VerticalSpace 
+} from '@create-figma-plugin/ui';
+import { h } from 'preact';
+import { useState, useEffect, useRef } from 'preact/hooks';
+```
+
+### Backend Utilities
+```typescript
+import { showUI, on, emit } from '@create-figma-plugin/utilities';
+```
+
+### Styles
+```typescript
+import '!./output.css';
+```
+
+---
+
+## 🎓 PERFECT EXAMPLE
+
+```typescript
+import { render, Button, Textbox, Text, Stack, Container } from '@create-figma-plugin/ui';
+import { h } from 'preact';
+import { useState } from 'preact/hooks';
+import { on, emit } from '@create-figma-plugin/utilities';
+import '!./output.css';
+
+function Plugin() {
+  const [value, setValue] = useState('');
+  
+  return (
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      height: '100vh',
+      overflow: 'hidden',
+      backgroundColor: 'var(--figma-color-bg)'
+    }}>
+      <div className="custom-scroll-content" style={{ paddingBottom: '16px' }}>
+        <Container space="medium">
+          <Stack space="medium">
+            
+            <Text style={{ 
+              fontSize: '13px', 
+              fontWeight: '600',
+              lineHeight: '16px'
+            }}>
+              Section Title
+            </Text>
+            
+            <Stack space="small">
+              <Text style={{ 
+                fontSize: '11px', 
+                fontWeight: '500',
+                lineHeight: '16px'
+              }}>
+                Label
+              </Text>
+              <Textbox
+                value={value}
+                placeholder="Enter text..."
+                onValueInput={setValue}
+              />
+            </Stack>
+            
+            <Button onClick={() => {}} fullWidth>
+              Submit
+            </Button>
+            
+          </Stack>
+        </Container>
+      </div>
+    </div>
+  );
+}
+
+export default render(Plugin);
+```
+
+**Backend:**
+```typescript
+import { showUI, on, emit } from '@create-figma-plugin/utilities';
+
+export default function () {
+  showUI({ width: 400, height: 500 }, { themeColors: true });
+  
+  on('submit', (data) => {
+    figma.notify('Success!');
+  });
+}
+```
+
+---
+
+## 🔍 TESTING REQUIREMENTS
+
+**Visual Testing:**
+1. Test in Figma light mode - verify readability
+2. Test in Figma dark mode - verify colors adapt correctly
+3. Scroll to bottom - verify proper padding
+4. Check all interactive states (hover, disabled)
+
+**Code Review:**
+1. Search for hex colors (#) - should be ZERO matches
+2. Search for rgb/hsl - should be ZERO matches
+3. Verify `themeColors: true` in showUI call
+4. Verify all text has lineHeight
+5. Verify spacing uses framework components
+
+---
+
+## 📖 DOCUMENTATION REFERENCES
+
+- **Design Principles:** FIGMA-PLUGIN-DESIGN-PRINCIPLES.md (PRIMARY REFERENCE)
+- **Quick Start:** FIGMA-PLUGIN-QUICK-START.md
+- **Complete Guide:** FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md
+- **Cheat Sheet:** FIGMA-PLUGIN-CHEAT-SHEET.md
+
+---
+
+**REMEMBER:** When in doubt, reference the Design Principles guide. Every visual property should use Figma design tokens. This ensures professional, native-looking plugins that work perfectly in both light and dark modes.

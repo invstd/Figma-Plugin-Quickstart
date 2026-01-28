@@ -222,7 +222,8 @@ import { Text, Muted } from '@create-figma-plugin/ui';
 ```typescript
 import { showUI } from '@create-figma-plugin/utilities';
 
-showUI({ width: 400, height: 500 }, { resizable: true });
+// MUST include themeColors: true for design tokens to work!
+showUI({ width: 400, height: 500 }, { themeColors: true });
 ```
 
 ### Show Notification

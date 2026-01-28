@@ -624,7 +624,8 @@ import { showUI, on, emit } from '@create-figma-plugin/utilities';
 
 export default function () {
   // Show the plugin UI
-  showUI({ width: 400, height: 300 }, { resizable: true });
+  // IMPORTANT: themeColors: true enables Figma design token CSS variables
+  showUI({ width: 400, height: 300 }, { themeColors: true });
 
   // Handle messages from UI
   on('submit-message', (data: { message: string }) => {
@@ -701,7 +702,10 @@ Options:
 Make your plugin window resizable:
 
 ```typescript
-showUI({ width: 400, height: 550 }, { resizable: true });
+showUI({ width: 400, height: 550 }, { 
+  themeColors: true,  // REQUIRED for design tokens
+  resizable: true     // Makes window resizable
+});
 ```
 
 Add resize handle in UI:
