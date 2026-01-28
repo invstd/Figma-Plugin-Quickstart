@@ -4,6 +4,8 @@
 
 Use this as a quick reference when you want to start a new Figma plugin with the TokenMatch infrastructure. For detailed explanations, see [FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md).
 
+> ⚠️ **IMPORTANT:** Before building any UI, read the [Design Principles Guide](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) to ensure your plugin matches Figma's interface and avoids common mistakes like wrong colors, missing line heights, and contrast issues.
+
 ---
 
 ## 🚀 Quick Setup (5 minutes)
@@ -395,17 +397,22 @@ npm run watch
 
 ## 🎨 Figma Design Tokens Reference
 
-Always use Figma's built-in variables for theming:
+**⚠️ CRITICAL:** Always use Figma's built-in variables for theming. Never use hardcoded colors!
+
+For complete design guidelines, see [FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md).
 
 ```typescript
 // ✅ Correct - adapts to light/dark mode
 style={{ 
   color: 'var(--figma-color-text)',
   backgroundColor: 'var(--figma-color-bg-secondary)',
-  border: '1px solid var(--figma-color-border)'
+  border: '1px solid var(--figma-color-border)',
+  fontSize: '11px',           // Standard body text size
+  lineHeight: '16px',         // ALWAYS specify line height
+  fontWeight: '400'           // Regular weight
 }}
 
-// ❌ Wrong - hardcoded colors
+// ❌ Wrong - hardcoded colors break in dark mode
 style={{ 
   color: '#333',
   backgroundColor: '#f5f5f5',

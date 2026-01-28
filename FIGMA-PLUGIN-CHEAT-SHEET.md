@@ -2,6 +2,8 @@
 
 **Quick reference for essential commands, patterns, and variables**
 
+> ⚠️ **Before you start:** Read the [Design Principles Guide](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) to avoid common UI mistakes!
+
 ---
 
 ## 🚀 Setup Commands
@@ -46,6 +48,8 @@ mkdir -p src types services
 ---
 
 ## 🎨 Figma Color Variables (Always Use These!)
+
+**⚠️ NEVER use hardcoded colors!** See [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) for complete guidelines.
 
 ### Text Colors
 ```typescript
@@ -446,6 +450,7 @@ const showToast = (message: string) => {
 
 ## 📚 Full Documentation
 
+- **Design Principles**: [FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) ⭐ **Read first!**
 - **Quick Start**: [FIGMA-PLUGIN-QUICK-START.md](./FIGMA-PLUGIN-QUICK-START.md)
 - **Complete Guide**: [FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)
 - **Overview**: [FIGMA-PLUGIN-STARTER-GUIDE.md](./FIGMA-PLUGIN-STARTER-GUIDE.md)

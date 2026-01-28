@@ -8,6 +8,22 @@ This project includes comprehensive documentation for setting up the complete in
 
 ## 📚 Available Resources
 
+### 🎨 Design Principles (Read This First!)
+**[FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md)** ⭐
+
+Essential design guidelines that ensure your plugin matches Figma's interface. This guide prevents common mistakes like wrong colors, missing line heights, and contrast issues.
+
+**What's included:**
+- ✅ Complete design token reference (colors, typography, spacing)
+- ✅ Layout best practices and patterns
+- ✅ Common mistakes to avoid
+- ✅ Pre-flight checklist
+- ✅ Perfect example implementations
+
+**Use this when:** You're about to start building UI or debugging visual issues.
+
+---
+
 ### 🚀 Quick Start (5 minutes)
 **[FIGMA-PLUGIN-QUICK-START.md](./FIGMA-PLUGIN-QUICK-START.md)**
 
@@ -157,16 +173,18 @@ Automatic support for:
 ## 🎓 Learning Path
 
 ### For Beginners
-1. Start with **[Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md)**
-2. Build a simple plugin to understand the basics
-3. Reference **[Complete Guide](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)** for deeper understanding
-4. Explore [Figma Plugin API docs](https://www.figma.com/plugin-docs/) for advanced features
+1. Start with **[Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md)** to understand UI guidelines
+2. Use **[Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md)** to set up your project
+3. Build a simple plugin to understand the basics
+4. Reference **[Complete Guide](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)** for deeper understanding
+5. Explore [Figma Plugin API docs](https://www.figma.com/plugin-docs/) for advanced features
 
 ### For Experienced Developers
-1. Skim **[Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md)** for setup
-2. Use **[Complete Guide](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)** as reference
-3. Focus on the custom scrollbar and theming sections
-4. Customize for your specific needs
+1. Read **[Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md)** to avoid common UI mistakes
+2. Skim **[Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md)** for setup
+3. Use **[Complete Guide](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)** as reference
+4. Focus on the custom scrollbar and theming sections
+5. Customize for your specific needs
 
 ---
 
