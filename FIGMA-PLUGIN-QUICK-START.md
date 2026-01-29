@@ -5,6 +5,8 @@
 Use this as a quick reference when you want to start a new Figma plugin with the TokenMatch infrastructure. For detailed explanations, see [FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md).
 
 > ⚠️ **IMPORTANT:** Before building any UI, read the [Design Principles Guide](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) to ensure your plugin matches Figma's interface and avoids common mistakes like wrong colors, missing line heights, and contrast issues.
+>
+> 📘 **For complete UI patterns and implementations:** See the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md) for all component patterns, custom scrollbar implementation, and layout structure.
 
 ---
 
@@ -16,12 +18,19 @@ mkdir my-plugin && cd my-plugin
 npm init -y
 
 # 2. Install dependencies (copy-paste this entire block)
+# ⚠️ CRITICAL: Must use v4.0.3 or later of @create-figma-plugin packages!
 npm install @create-figma-plugin/ui@^4.0.3 @create-figma-plugin/utilities@^4.0.3 preact@">=10"
 npm install --save-dev @create-figma-plugin/build@^4.0.3 @create-figma-plugin/tsconfig@^4.0.3 @figma/plugin-typings@1.109.0 @tailwindcss/cli@">=4" tailwindcss@">=4" typescript@">=5" concurrently@">=9"
 
 # 3. Create directory structure
 mkdir -p src types services
 ```
+
+**Why v4.0.3 is Required:**
+- Proper theme color support (`themeColors: true`)
+- Updated component styling
+- Bug fixes for disabled states and color contrast
+- Improved TypeScript definitions
 
 ---
 
@@ -169,6 +178,8 @@ button[disabled] {
 ---
 
 ### `src/ui.tsx` (Minimal Starter with Scrollbar)
+
+> 📘 **Note:** The custom scrollbar hook below is included for reference. For the complete implementation with all features, see the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation).
 
 <details>
 <summary>Click to expand starter UI template</summary>
@@ -401,6 +412,8 @@ npm run watch
 
 For complete design guidelines, see [FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md).
 
+For complete UI component patterns, see [FIGMA-PLUGIN-DESIGN-SYSTEM.md](./FIGMA-PLUGIN-DESIGN-SYSTEM.md).
+
 ### Colors
 ```typescript
 // ✅ Correct - adapts to light/dark mode
@@ -547,6 +560,9 @@ npm install --save-dev @figma/plugin-typings@latest
 
 For detailed explanations, architecture details, and advanced topics:
 → **[FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)**
+
+For complete UI component patterns and implementations:
+→ **[FIGMA-PLUGIN-DESIGN-SYSTEM.md](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)**
 
 ---
 

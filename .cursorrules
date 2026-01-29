@@ -203,6 +203,65 @@ Use framework spacing values ONLY:
 </Container>
 ```
 
+### Spacing Between Input Elements and Buttons
+
+| Scenario | Method | Value |
+|----------|--------|-------|
+| Between sections | `<Stack space="medium">` | 16px |
+| Between field groups | `<Stack space="small">` | 8px |
+| Input + Button (horizontal) | `gap: '8px'` | 8px |
+| Between buttons | `gap: '8px'` | 8px |
+
+**Input with Adjacent Button Pattern:**
+```typescript
+<Stack space="small">
+  <Text>Label</Text>
+  <div style={{ 
+    display: 'flex', 
+    gap: '8px',                    // 8px between input and button
+    alignItems: 'stretch'          // Match heights (28px)
+  }}>
+    <div style={{ flex: '1 1 auto' }}>
+      <Textbox value={value} onValueInput={setValue} />
+    </div>
+    <Button onClick={handleAction}>Go</Button>
+  </div>
+</Stack>
+```
+
+### ⚠️ Stack Component - Critical Usage Notes
+
+**DO NOT wrap multiple Stack children in a Fragment:**
+
+```typescript
+// ❌ WRONG - Fragment breaks spacing
+<Stack space="medium">
+  <Text>Header</Text>
+  {condition && (
+    <Fragment>
+      <Stack space="small">...</Stack>
+      <Stack space="small">...</Stack>  {/* No spacing! */}
+    </Fragment>
+  )}
+</Stack>
+
+// ✅ CORRECT - Each conditional rendered separately
+<Stack space="medium">
+  <Text>Header</Text>
+  {condition && <Stack space="small">...</Stack>}
+  {condition && <Stack space="small">...</Stack>}
+</Stack>
+```
+
+**Tailwind CSS v4 Compatibility:**
+```css
+/* ❌ WRONG - Preflight resets conflict */
+@import "tailwindcss";
+
+/* ✅ CORRECT - Utilities only */
+@import "tailwindcss/utilities";
+```
+
 ---
 
 ## 🏗️ LAYOUT PATTERNS
@@ -290,6 +349,18 @@ style={{ fontSize: '11px' }} // WRONG!
 style={{ padding: '12px', marginBottom: '8px' }} // WRONG!
 ```
 
+### ❌ Fragment in Stack (breaks spacing)
+```typescript
+<Stack space="medium">
+  {condition && (
+    <Fragment>  {/* WRONG - loses spacing! */}
+      <div>Item 1</div>
+      <div>Item 2</div>
+    </Fragment>
+  )}
+</Stack>
+```
+
 ### ❌ No Bottom Padding
 ```typescript
 <div className="custom-scroll-content">  // WRONG!
@@ -303,6 +374,11 @@ style={{ fontSize: '14px' }} // WRONG! Use 11px or 13px
 ### ❌ Custom Fonts
 ```typescript
 style={{ fontFamily: 'Arial' }} // WRONG! Never set font-family
+```
+
+### ❌ Tailwind Preflight with @create-figma-plugin
+```css
+@import "tailwindcss";  /* WRONG - breaks Stack spacing */
 ```
 
 ---
@@ -333,6 +409,10 @@ Before considering code complete, verify:
 - [ ] NO arbitrary padding/margin values
 - [ ] Bottom padding on scrollable content (16px minimum)
 - [ ] Spacing uses extraSmall/small/medium/large/extraLarge
+- [ ] NO Fragments wrapping multiple Stack children
+- [ ] Input + Button uses `gap: '8px'` and `alignItems: 'stretch'`
+- [ ] Sections separated with `space="medium"` (16px)
+- [ ] Field groups use `space="small"` (8px)
 
 **Layout:**
 - [ ] Main container is `height: 100vh`

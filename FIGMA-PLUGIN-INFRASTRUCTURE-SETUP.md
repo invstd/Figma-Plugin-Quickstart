@@ -4,6 +4,8 @@
 
 This document provides step-by-step instructions for creating a Figma plugin with the infrastructure used in TokenMatch. Use this as a reference for kickstarting new Figma plugin projects with a robust foundation.
 
+> 📘 **For complete UI patterns and styling:** See the **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)** for detailed component implementations, custom scrollbar with no layout shift, and all styling patterns.
+
 ---
 
 ## Table of Contents
@@ -13,13 +15,12 @@ This document provides step-by-step instructions for creating a Figma plugin wit
 3. [Core Infrastructure Setup](#core-infrastructure-setup)
 4. [UI Framework Configuration](#ui-framework-configuration)
 5. [Styling System (Tailwind CSS)](#styling-system-tailwind-css)
-6. [Custom Scrollbar Implementation](#custom-scrollbar-implementation)
-7. [Theme Support (Light/Dark Mode)](#theme-support-lightdark-mode)
-8. [Build System](#build-system)
-9. [TypeScript Configuration](#typescript-configuration)
-10. [Project Structure](#project-structure)
-11. [Verification & Testing](#verification--testing)
-12. [Common Customizations](#common-customizations)
+6. [Theme Support (Light/Dark Mode)](#theme-support-lightdark-mode)
+7. [Build System](#build-system)
+8. [TypeScript Configuration](#typescript-configuration)
+9. [Project Structure](#project-structure)
+10. [Verification & Testing](#verification--testing)
+11. [Common Customizations](#common-customizations)
 
 ---
 
@@ -29,7 +30,7 @@ This infrastructure provides:
 - **@create-figma-plugin** framework for Figma-native UI components
 - **Preact** for efficient, lightweight rendering
 - **Tailwind CSS v4** for modern utility-first styling
-- **Custom scrollbar** implementation with smooth interactions
+- **Custom scrollbar** with no layout shift (see [Design System](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation))
 - **Automatic light/dark mode** support using Figma design tokens
 - **TypeScript** with proper type definitions
 - **Hot reload** development workflow
@@ -61,18 +62,28 @@ npm init -y
 
 ### Step 2: Install Core Dependencies
 
+**⚠️ CRITICAL VERSION REQUIREMENTS:**
+
+You **MUST** use v4.0.3 or later of the @create-figma-plugin packages. Earlier versions have compatibility issues and missing features required for proper theme support.
+
 ```bash
-# Install Figma plugin framework
+# Install Figma plugin framework (v4.0.3 or later REQUIRED)
 npm install @create-figma-plugin/ui@^4.0.3 @create-figma-plugin/utilities@^4.0.3
 
 # Install Preact (required by @create-figma-plugin)
 npm install preact@">=10"
 ```
 
+**Why v4.0.3+ is Required:**
+- Proper theme color support via `{ themeColors: true }` option
+- Updated component styling that matches Figma's current design system
+- Critical bug fixes for disabled states and color contrast
+- Improved TypeScript definitions for better type safety
+
 ### Step 3: Install Development Dependencies
 
 ```bash
-# Install build tools
+# Install build tools (v4.0.3+ required for compatibility)
 npm install --save-dev @create-figma-plugin/build@^4.0.3
 npm install --save-dev @create-figma-plugin/tsconfig@^4.0.3
 npm install --save-dev @figma/plugin-typings@1.109.0
@@ -87,6 +98,12 @@ npm install --save-dev typescript@">=5"
 # Install concurrently for parallel builds
 npm install --save-dev concurrently@">=9"
 ```
+
+**Package Version Summary:**
+- `@create-figma-plugin/*@^4.0.3` - **Required minimum version**
+- `preact@">=10"` - Latest Preact 10.x
+- `tailwindcss@">=4"` - Tailwind CSS v4
+- `typescript@">=5"` - TypeScript 5.x or later
 
 ---
 
@@ -149,6 +166,8 @@ export default {
 ```
 
 ### Step 6: Create Input CSS File
+
+> 📘 **Note:** The CSS below includes the custom scrollbar styles. For the complete scrollbar implementation including the React hook, see the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation).
 
 Create `src/input.css`:
 
@@ -238,193 +257,17 @@ button[disabled] {
 
 **What this provides:**
 - Tailwind CSS utilities for rapid styling
-- Custom scrollbar styles (see next section)
+- Custom scrollbar styles (for complete implementation, see [Design System](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation))
 - Figma-native design token variables
 - Light/dark mode compatibility fixes
 
 ---
 
-## Custom Scrollbar Implementation
-
-### Step 7: Add Custom Scrollbar Hook
-
-The custom scrollbar provides an overlay scrollbar that doesn't affect layout and works beautifully in both light and dark modes.
-
-Add this to your `src/ui.tsx`:
-
-```typescript
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
-
-// Custom scrollbar hook - creates an overlay scrollbar without layout shift
-function useCustomScrollbar(contentRef: React.RefObject<HTMLDivElement>) {
-  const [thumbHeight, setThumbHeight] = useState(0);
-  const [thumbTop, setThumbTop] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [showScrollbar, setShowScrollbar] = useState(false);
-  const dragStartRef = useRef<{ y: number; scrollTop: number } | null>(null);
-
-  // Calculate thumb size and position
-  const updateScrollbar = useCallback(() => {
-    const content = contentRef.current;
-    if (!content) return;
-
-    const { scrollHeight, clientHeight, scrollTop } = content;
-    const hasScroll = scrollHeight > clientHeight;
-    setShowScrollbar(hasScroll);
-
-    if (hasScroll) {
-      const ratio = clientHeight / scrollHeight;
-      const newThumbHeight = Math.max(30, clientHeight * ratio);
-      const maxScrollTop = scrollHeight - clientHeight;
-      const scrollRatio = scrollTop / maxScrollTop;
-      const maxThumbTop = clientHeight - newThumbHeight;
-      
-      setThumbHeight(newThumbHeight);
-      setThumbTop(scrollRatio * maxThumbTop);
-    }
-  }, [contentRef]);
-
-  // Handle scroll events
-  useEffect(() => {
-    const content = contentRef.current;
-    if (!content) return;
-
-    const handleScroll = () => updateScrollbar();
-    content.addEventListener('scroll', handleScroll);
-    
-    // Initial calculation
-    updateScrollbar();
-    
-    // Recalculate on resize
-    const resizeObserver = new ResizeObserver(updateScrollbar);
-    resizeObserver.observe(content);
-
-    return () => {
-      content.removeEventListener('scroll', handleScroll);
-      resizeObserver.disconnect();
-    };
-  }, [contentRef, updateScrollbar]);
-
-  // Handle thumb drag
-  const handleThumbMouseDown = useCallback((e: MouseEvent) => {
-    e.preventDefault();
-    const content = contentRef.current;
-    if (!content) return;
-
-    setIsDragging(true);
-    dragStartRef.current = { y: e.clientY, scrollTop: content.scrollTop };
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      if (!dragStartRef.current || !contentRef.current) return;
-      
-      const deltaY = moveEvent.clientY - dragStartRef.current.y;
-      const content = contentRef.current;
-      const { scrollHeight, clientHeight } = content;
-      const maxScrollTop = scrollHeight - clientHeight;
-      const thumbRange = clientHeight - thumbHeight;
-      const scrollRatio = deltaY / thumbRange;
-      
-      content.scrollTop = dragStartRef.current.scrollTop + (scrollRatio * maxScrollTop);
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      dragStartRef.current = null;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [contentRef, thumbHeight]);
-
-  // Handle track click
-  const handleTrackClick = useCallback((e: MouseEvent) => {
-    const content = contentRef.current;
-    if (!content || e.target !== e.currentTarget) return;
-
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    const { scrollHeight, clientHeight } = content;
-    const clickRatio = clickY / clientHeight;
-    
-    content.scrollTop = (scrollHeight - clientHeight) * clickRatio;
-  }, [contentRef]);
-
-  return {
-    thumbHeight,
-    thumbTop,
-    isDragging,
-    showScrollbar,
-    handleThumbMouseDown,
-    handleTrackClick
-  };
-}
-```
-
-### Step 8: Implement Scrollbar in UI
-
-```typescript
-function Plugin() {
-  // Create ref for scrollable content
-  const mainScrollRef = useRef<HTMLDivElement>(null);
-  const customScrollbar = useCustomScrollbar(mainScrollRef);
-
-  return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      height: '100vh',
-      overflow: 'hidden'
-    }}>
-      {/* Scrollable content area with custom scrollbar */}
-      <div className="custom-scroll-container" style={{ flex: 1, position: 'relative' }}>
-        <div 
-          ref={mainScrollRef}
-          className="custom-scroll-content"
-          style={{ paddingBottom: '36px' }} // Space for footer if needed
-        >
-          {/* Your plugin content goes here */}
-          <Container space="medium">
-            {/* ... */}
-          </Container>
-        </div>
-        
-        {/* Custom scrollbar track and thumb */}
-        {customScrollbar.showScrollbar && (
-          <div 
-            className={`custom-scrollbar-track ${customScrollbar.isDragging ? 'dragging' : ''}`}
-            onClick={customScrollbar.handleTrackClick as any}
-            style={{ opacity: 1 }}
-          >
-            <div 
-              className={`custom-scrollbar-thumb ${customScrollbar.isDragging ? 'dragging' : ''}`}
-              style={{ 
-                height: `${customScrollbar.thumbHeight}px`,
-                top: `${customScrollbar.thumbTop}px`
-              }}
-              onMouseDown={customScrollbar.handleThumbMouseDown as any}
-            />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-```
-
-**Features:**
-- Overlay scrollbar (doesn't affect layout)
-- Smooth drag interactions
-- Auto-hide/show on hover
-- Responsive to content changes
-- Works with ResizeObserver for dynamic content
-
----
-
 ## Theme Support (Light/Dark Mode)
 
-### Step 9: Understanding Figma Design Tokens
+### Step 7: Understanding Figma Design Tokens
+
+> 📘 **For complete component patterns:** See the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md) for all UI component implementations using these tokens.
 
 Figma automatically provides CSS variables that adapt to the user's theme preference:
 
@@ -470,7 +313,7 @@ Figma automatically provides CSS variables that adapt to the user's theme prefer
 
 ## Build System
 
-### Step 10: Understanding the Build Process
+### Step 8: Understanding the Build Process
 
 The build system has two parallel processes:
 
@@ -498,7 +341,7 @@ npm run build
 # Creates optimized, minified builds
 ```
 
-### Step 11: Create manifest.json
+### Step 9: Create manifest.json
 
 The `@create-figma-plugin` build tool automatically generates `manifest.json`, but you can verify it looks like this:
 
@@ -521,7 +364,7 @@ The `@create-figma-plugin` build tool automatically generates `manifest.json`, b
 
 ## TypeScript Configuration
 
-### Step 12: Create tsconfig.json
+### Step 10: Create tsconfig.json
 
 ```json
 {
@@ -543,7 +386,7 @@ The `@create-figma-plugin` build tool automatically generates `manifest.json`, b
 
 ## Project Structure
 
-### Step 13: Create Standard Directory Structure
+### Step 11: Create Standard Directory Structure
 
 ```
 my-figma-plugin/
@@ -568,7 +411,9 @@ my-figma-plugin/
 └── README.md
 ```
 
-### Step 14: Create Basic UI Entry Point
+### Step 12: Create Basic UI Entry Point
+
+> 📘 **For custom scrollbar implementation:** See the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation) for the complete `useCustomScrollbar` hook.
 
 Create `src/ui.tsx`:
 
@@ -615,7 +460,7 @@ export default render(Plugin);
 - Use `emit()` to send messages to the plugin backend
 - Use `on()` to receive messages from the plugin backend
 
-### Step 15: Create Basic Plugin Backend
+### Step 13: Create Basic Plugin Backend
 
 Create `src/main.ts`:
 
@@ -638,7 +483,7 @@ export default function () {
 
 ## Verification & Testing
 
-### Step 16: Build and Test
+### Step 14: Build and Test
 
 **1. Build the plugin:**
 ```bash
@@ -808,6 +653,7 @@ After setting up the infrastructure:
 
 ## Additional Resources
 
+- **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)** - Complete UI component patterns and scrollbar implementation
 - [Figma Plugin API Documentation](https://www.figma.com/plugin-docs/)
 - [@create-figma-plugin Documentation](https://github.com/yuanqing/create-figma-plugin)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
@@ -827,7 +673,7 @@ Use this checklist when setting up a new plugin:
 - [ ] `src/input.css` created with custom scrollbar styles
 - [ ] `src/ui.tsx` created with basic UI
 - [ ] `src/main.ts` created with plugin backend
-- [ ] Custom scrollbar hook implemented
+- [ ] Custom scrollbar implemented (see [Design System](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation))
 - [ ] Build runs successfully (`npm run build`)
 - [ ] Plugin loads in Figma
 - [ ] Watch mode works (`npm run watch`)
@@ -842,7 +688,7 @@ This setup provides:
 ✅ Modern tooling and fast development workflow
 ✅ Beautiful UI with Figma-native components
 ✅ Proper light/dark mode support
-✅ Custom scrollbar for better UX
+✅ Custom scrollbar with no layout shift (see [Design System](./FIGMA-PLUGIN-DESIGN-SYSTEM.md))
 ✅ TypeScript for reliability
 ✅ Scalable architecture
 

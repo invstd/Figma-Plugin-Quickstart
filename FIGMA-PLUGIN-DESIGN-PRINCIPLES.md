@@ -2,6 +2,8 @@
 
 **Essential design guidelines for AI to build plugins that match Figma's interface**
 
+> 💡 **For complete UI implementation details**, component patterns, and the custom scrollbar implementation, see the **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)**.
+
 ---
 
 ## 🎯 Core Principles
@@ -102,7 +104,7 @@ When using colored backgrounds (success, warning, danger, brand), you MUST use t
 **✅ ALWAYS do this:**
 ```typescript
 // Correct - uses the framework's spacing system
-import { Container, VerticalSpace, Stack } from '@create-figma-plugin/ui';
+import { Container, VerticalSpace, Stack, Inline } from '@create-figma-plugin/ui';
 
 <Container space="medium">
   <Stack space="small">
@@ -117,6 +119,28 @@ import { Container, VerticalSpace, Stack } from '@create-figma-plugin/ui';
 - `medium` - 16px
 - `large` - 24px
 - `extraLarge` - 32px
+
+**Input Element Spacing Guidelines:**
+- **Between distinct input groups**: Use `<Stack space="medium">` (16px)
+- **Within an input group** (label + input): Use `<Stack space="small">` (8px)
+- **Between inputs in same row**: Use `<Inline space="small">` (8px)
+
+```typescript
+// Correct spacing between input groups
+<Stack space="medium">
+  {/* Group 1 */}
+  <Stack space="small">
+    <Text>Label</Text>
+    <Textbox value={value1} onValueInput={setValue1} />
+  </Stack>
+  
+  {/* Group 2 */}
+  <Stack space="small">
+    <Text>Label</Text>
+    <Textbox value={value2} onValueInput={setValue2} />
+  </Stack>
+</Stack>
+```
 
 ### 3. Proper Typography and Line Heights
 
@@ -150,6 +174,8 @@ import { Text } from '@create-figma-plugin/ui';
 ---
 
 ## 📐 Complete Design Token Reference
+
+> 📘 **For complete component implementations** (buttons, cards, badges, notifications, etc.), see the **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)**.
 
 ### Text Colors (ALWAYS use these!)
 
@@ -357,6 +383,8 @@ fontWeight: '600'  // Semibold (headers, strong emphasis)
 ---
 
 ## 🔘 Component Best Practices
+
+> 📘 **For complete component patterns and implementations**, including cards, badges, notifications, dropdowns, and progress bars, see the **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)**.
 
 ### Buttons
 
@@ -680,6 +708,7 @@ export default render(Plugin);
 
 ## 📚 Additional Resources
 
+- **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)** - Complete UI component patterns and scrollbar implementation
 - [Figma Plugin API - UI Components](https://www.figma.com/plugin-docs/creating-ui/)
 - [@create-figma-plugin Documentation](https://github.com/yuanqing/create-figma-plugin)
 - [Figma Design Principles](https://www.figma.com/community/file/817913151506972573)

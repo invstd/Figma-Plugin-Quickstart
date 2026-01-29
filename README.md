@@ -20,6 +20,9 @@ Overview of available resources and how to choose what to share with your AI.
 🎨 **[Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md)** ⭐ **START HERE!**  
 Critical design guidelines that ensure your plugin looks professional and matches Figma's interface. AI must follow these to avoid common mistakes.
 
+🎨 **[Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md)** 🔧 **COMPLETE UI REFERENCE**  
+Comprehensive specification for implementing Figma plugin UIs. Includes exact component patterns, scrollbar implementation (no layout shift), complete color system, typography, and layout structure.
+
 🚀 **[Quick Start](./FIGMA-PLUGIN-QUICK-START.md)**  
 Complete setup code that AI can use to get your plugin running in minutes.
 
@@ -48,13 +51,14 @@ These guides provide production-ready patterns and code that AI can reliably imp
 1. **Start a conversation with your AI assistant** (Claude, ChatGPT, Cursor, etc.)
 2. **Share these guides** (in this order):
    - [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) - **Must read first!**
+   - [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md) - **Complete UI implementation reference**
    - [Quick Start](./FIGMA-PLUGIN-QUICK-START.md) - Setup code
 3. **Describe your plugin idea** in your own words—what problem it solves, what it should do
 4. **Let AI build it** using the documentation as reference
 5. **Iterate together** by asking for changes or improvements
 
 ### Example Prompt:
-> "I want to build a Figma plugin that helps me organize layers by color. I've attached the Design Principles and Quick Start guides—can you help me create this? Please follow the design principles carefully to ensure it matches Figma's interface."
+> "I want to build a Figma plugin that helps me organize layers by color. I've attached the Design Principles, Design System Specification, and Quick Start guides—can you help me create this? Please follow the design principles and use the Design System for all UI components to ensure it matches Figma's interface."
 
 ---
 
@@ -90,4 +94,4 @@ These guides are based on real plugin development experience and are optimized f
 
 ---
 
-**Ready to build your plugin?** Share the [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) and [Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md) with your AI assistant and describe your idea! →
+**Ready to build your plugin?** Share the [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md), [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md), and [Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md) with your AI assistant and describe your idea! →

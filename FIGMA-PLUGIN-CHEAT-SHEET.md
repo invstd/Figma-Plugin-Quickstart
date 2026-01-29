@@ -3,6 +3,8 @@
 **Quick reference for essential commands, patterns, and variables**
 
 > ⚠️ **Before you start:** Read the [Design Principles Guide](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) to avoid common UI mistakes!
+> 
+> 📘 **For complete UI patterns:** See the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md) for detailed component implementations and custom scrollbar.
 
 ---
 
@@ -13,11 +15,15 @@
 mkdir my-plugin && cd my-plugin && npm init -y
 
 # Install all dependencies (one command)
+# ⚠️ CRITICAL: Must use @create-figma-plugin v4.0.3 or later!
 npm i @create-figma-plugin/ui@^4.0.3 @create-figma-plugin/utilities@^4.0.3 preact@">=10" && npm i -D @create-figma-plugin/build@^4.0.3 @create-figma-plugin/tsconfig@^4.0.3 @figma/plugin-typings@1.109.0 @tailwindcss/cli@">=4" tailwindcss@">=4" typescript@">=5" concurrently@">=9"
 
 # Create directory structure
 mkdir -p src types services
 ```
+
+**Version Requirements:**
+- `@create-figma-plugin/ui` and `@create-figma-plugin/utilities` **MUST be v4.0.3+** for proper theme support
 
 ---
 
@@ -237,6 +243,8 @@ import { Text, Muted } from '@create-figma-plugin/ui';
 ---
 
 ## 🖱️ Custom Scrollbar Markup
+
+> 📘 **For complete scrollbar implementation** (CSS + React hook), see the [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md#scrollbar-implementation).
 
 ```typescript
 <div className="custom-scroll-container" style={{ flex: 1, position: 'relative' }}>
@@ -501,6 +509,7 @@ const showToast = (message: string) => {
 
 ## 📚 Full Documentation
 
+- **Design System**: [FIGMA-PLUGIN-DESIGN-SYSTEM.md](./FIGMA-PLUGIN-DESIGN-SYSTEM.md) 🎨 **Complete UI reference!**
 - **Design Principles**: [FIGMA-PLUGIN-DESIGN-PRINCIPLES.md](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md) ⭐ **Read first!**
 - **Quick Start**: [FIGMA-PLUGIN-QUICK-START.md](./FIGMA-PLUGIN-QUICK-START.md)
 - **Complete Guide**: [FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md](./FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md)
