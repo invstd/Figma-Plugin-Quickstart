@@ -550,9 +550,45 @@ export default function () {
 ## 📖 DOCUMENTATION REFERENCES
 
 - **Design Principles:** FIGMA-PLUGIN-DESIGN-PRINCIPLES.md (PRIMARY REFERENCE)
+- **UI Components Reference:** FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md (All UI elements)
 - **Quick Start:** FIGMA-PLUGIN-QUICK-START.md
 - **Complete Guide:** FIGMA-PLUGIN-INFRASTRUCTURE-SETUP.md
 - **Cheat Sheet:** FIGMA-PLUGIN-CHEAT-SHEET.md
+
+---
+
+## 🔧 UI COMPONENTS FROM PACKAGE
+
+### Available from @create-figma-plugin/ui
+
+**Form Components:**
+- `Button` - Primary/secondary buttons (props: `secondary`, `fullWidth`, `disabled`)
+- `Textbox` - Text inputs (props: `password`, `placeholder`, `disabled`, `onValueInput`)
+- `Dropdown` - Select dropdowns (props: `options`, `placeholder`, `onValueChange`)
+
+**Text Components:**
+- `Text` - General text display
+- `Muted` - Pre-styled secondary/muted text
+
+**Layout Components:**
+- `Container` - Adds consistent padding (props: `space="medium"`)
+- `Stack` - Vertical stack with gap (props: `space="small"`)
+- `Inline` - Horizontal inline layout with gap
+- `VerticalSpace` - Explicit vertical spacing
+
+**Render Function:**
+- `render()` - Required to mount Preact component
+
+### Components NOT in Package (Implement Custom)
+
+These must be implemented as custom components using Figma design tokens:
+- **Checkbox** - Use custom implementation with `var(--figma-color-*)` tokens
+- **Radio Button** - Use custom implementation
+- **Toggle/Switch** - Use custom implementation
+- **Tabs** - Use custom implementation
+- **Modal/Dialog** - Use custom implementation
+
+See `FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md` for complete custom implementations.
 
 ---
 

@@ -1294,28 +1294,166 @@ button[disabled] {
 
 ### Hover States
 
-#### Button Hover
+The Figma Plugin API fully supports standard CSS and React/Preact event handlers. Hover states provide visual feedback when users interact with UI elements.
+
+#### Button Types & Hover Behavior
+
+**Primary Buttons (Blue/Brand)**
+
+Primary buttons **do NOT need hover states added** - the `@create-figma-plugin/ui` library handles these automatically.
+
 ```tsx
-/* Handled by @create-figma-plugin/ui automatically */
+<Button onClick={handleClick}>
+  Primary Action
+</Button>
 ```
 
-#### Custom Element Hover
+**Secondary Buttons (Gray/Neutral)**
+
+Secondary buttons should have **background color hover states** added:
+
 ```tsx
-<div
+<Button 
+  onClick={handleClick}
+  secondary
   onMouseEnter={(e) => {
-    e.currentTarget.style.backgroundColor = 'var(--figma-color-bg-hover)';
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--figma-color-bg-hover)';
   }}
   onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = 'transparent';
+    (e.currentTarget as HTMLElement).style.backgroundColor = '';
+  }}
+>
+  Secondary Action
+</Button>
+```
+
+**Icon Buttons (Custom HTML)**
+
+Icon buttons need background color hover states with smooth transitions:
+
+```tsx
+<button 
+  onClick={handleClick}
+  onMouseEnter={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--figma-color-bg-hover)';
+  }}
+  onMouseLeave={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+  }}
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '28px',
+    height: '28px',
+    border: '1px solid var(--figma-color-border)',
+    borderRadius: '6px',
+    background: 'transparent',
+    cursor: 'pointer',
+    color: 'var(--figma-color-text)',
+    transition: 'background-color 0.15s ease'
+  }}
+>
+  <svg width="16" height="16">
+    {/* Icon SVG */}
+  </svg>
+</button>
+```
+
+#### Dropdown Items / List Items
+
+For custom dropdown or list items, use the same hover pattern:
+
+```tsx
+<div
+  onClick={handleSelect}
+  onMouseEnter={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--figma-color-bg-hover)';
+  }}
+  onMouseLeave={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
   }}
   style={{ 
+    padding: '8px', 
     cursor: 'pointer',
+    backgroundColor: 'transparent',
     transition: 'background-color 0.1s ease'
   }}
 >
-  Hoverable item
+  List Item
 </div>
 ```
+
+#### Cards / Large Interactive Areas
+
+For larger interactive elements like cards, consider border color changes:
+
+```tsx
+<div
+  onClick={handleClick}
+  onMouseEnter={(e) => {
+    (e.currentTarget as HTMLElement).style.borderColor = 'var(--figma-color-border-brand)';
+  }}
+  onMouseLeave={(e) => {
+    (e.currentTarget as HTMLElement).style.borderColor = 'var(--figma-color-border)';
+  }}
+  style={{
+    padding: '12px',
+    border: '1px solid var(--figma-color-border)',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'border-color 0.2s ease'
+  }}
+>
+  Card Content
+</div>
+```
+
+#### Hover State Best Practices
+
+**✅ Do:**
+- Use `var(--figma-color-bg-hover)` for hover backgrounds
+- Add `transition` CSS property for smooth animations (0.15s recommended)
+- Keep text color unchanged during hover
+- Type cast event targets: `(e.currentTarget as HTMLElement)`
+- Reset to empty string `''` or `'transparent'` on mouse leave
+- Always add `cursor: 'pointer'` to custom clickable elements
+
+**❌ Don't:**
+- Don't use opacity changes on text buttons (dims the text)
+- Don't add hover states to primary buttons (handled automatically)
+- Don't use hard-coded colors (breaks light/dark mode)
+- Don't forget to add cursor pointer to custom buttons
+
+#### Hover States with Disabled Elements
+
+Hover effects should not apply to disabled elements. The `disabled` attribute on Button components automatically prevents hover handlers from executing:
+
+```tsx
+<Button 
+  onClick={handleClick}
+  secondary
+  disabled={isLoading}
+  onMouseEnter={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--figma-color-bg-hover)';
+  }}
+  onMouseLeave={(e) => {
+    (e.currentTarget as HTMLElement).style.backgroundColor = '';
+  }}
+>
+  {isLoading ? 'Loading...' : 'Click Me'}
+</Button>
+```
+
+#### Hover States Quick Reference
+
+| Element Type | Hover Effect | Color Variable | Transition |
+|--------------|--------------|----------------|------------|
+| Primary Button | None (automatic) | N/A | N/A |
+| Secondary Button | Background | `var(--figma-color-bg-hover)` | Optional |
+| Icon Button | Background | `var(--figma-color-bg-hover)` | 0.15s ease |
+| List/Dropdown Item | Background | `var(--figma-color-bg-hover)` | 0.1s ease |
+| Card | Border | `var(--figma-color-border-brand)` | 0.2s ease |
 
 ### Focus States
 Input fields automatically show focus state with brightened borders (handled by @create-figma-plugin/ui).

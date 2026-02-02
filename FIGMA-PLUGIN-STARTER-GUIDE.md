@@ -61,6 +61,38 @@ A comprehensive, step-by-step guide that explains every part of the infrastructu
 
 ---
 
+### 🔧 UI Components Reference
+**[FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md](./FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md)**
+
+Complete API documentation for all UI components from the `@create-figma-plugin/ui` package, plus custom implementation patterns for components not included in the package.
+
+**What's included:**
+- ✅ All package components (Button, Textbox, Dropdown, Text, Container, Stack, etc.)
+- ✅ Complete props documentation with examples
+- ✅ Custom component implementations (Checkbox, Radio, Toggle, Tabs)
+- ✅ Usage patterns and best practices
+- ✅ Visual specifications
+
+**Use this when:** You need to know what props a component accepts, how to implement custom components, or see examples of specific UI patterns.
+
+---
+
+### ⚡ Cheat Sheet
+**[FIGMA-PLUGIN-CHEAT-SHEET.md](./FIGMA-PLUGIN-CHEAT-SHEET.md)**
+
+Quick reference for common patterns, commands, and code snippets.
+
+**What's included:**
+- ✅ Setup commands
+- ✅ Color variable quick reference
+- ✅ Typography values
+- ✅ Common code patterns
+- ✅ Keyboard shortcuts
+
+**Use this when:** You need a quick lookup during development.
+
+---
+
 ## 🎯 Infrastructure Features
 
 Both guides help you set up a plugin with:

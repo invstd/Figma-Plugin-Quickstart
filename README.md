@@ -32,6 +32,9 @@ Detailed technical explanations for when AI needs deeper context about how thing
 ⚡ **[Cheat Sheet](./FIGMA-PLUGIN-CHEAT-SHEET.md)**  
 Quick reference for common patterns and code snippets AI can use during development.
 
+🔧 **[UI Components Reference](./FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md)**  
+Complete guide to all UI components from `@create-figma-plugin/ui` package, including usage examples, props, and custom implementation patterns for components not in the package (checkboxes, radios, toggles, etc.).
+
 ---
 
 ## Who Is This For?
@@ -94,4 +97,4 @@ These guides are based on real plugin development experience and are optimized f
 
 ---
 
-**Ready to build your plugin?** Share the [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md), [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md), and [Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md) with your AI assistant and describe your idea! →
+**Ready to build your plugin?** Share the [Design Principles](./FIGMA-PLUGIN-DESIGN-PRINCIPLES.md), [Design System Specification](./FIGMA-PLUGIN-DESIGN-SYSTEM.md), [UI Components Reference](./FIGMA-PLUGIN-UI-COMPONENTS-REFERENCE.md), and [Quick Start Guide](./FIGMA-PLUGIN-QUICK-START.md) with your AI assistant and describe your idea! →
