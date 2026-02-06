@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* Hide native scrollbar for custom scrollbar containers */
+.custom-scroll-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-scroll-content {
+  overflow-y: scroll;
+  height: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.custom-scroll-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar track */
+.custom-scrollbar-track {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  background: transparent;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.custom-scroll-container:hover .custom-scrollbar-track,
+.custom-scrollbar-track.dragging {
+  opacity: 1;
+}
+
+/* Custom scrollbar thumb */
+.custom-scrollbar-thumb {
+  position: absolute;
+  right: 0;
+  width: 8px;
+  min-height: 30px;
+  background: var(--figma-color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.custom-scrollbar-thumb:hover,
+.custom-scrollbar-thumb.dragging {
+  background: var(--figma-color-border-strong);
+}
+
+/* Default scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--figma-color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--figma-color-border-strong);
+}
+
+/* Fix disabled button contrast */
+button[disabled] {
+  color: var(--figma-color-text-disabled) !important;
+}

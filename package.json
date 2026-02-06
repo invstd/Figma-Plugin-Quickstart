@@ -1,0 +1,61 @@
+{
+  "name": "@inversestudio/create-figma-plugin-native",
+  "version": "1.0.0",
+  "description": "Scaffold production-ready Figma plugins with native design system, AI-optimized documentation, and best practices",
+  "type": "module",
+  "bin": {
+    "create-figma-plugin-native": "./bin/create-figma-plugin-native.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "docs",
+    "skills",
+    "cli",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "figma",
+    "plugin",
+    "widget",
+    "scaffold",
+    "cli",
+    "create",
+    "ai",
+    "claude",
+    "cursor",
+    "preact",
+    "react",
+    "tailwind",
+    "native",
+    "design-system"
+  ],
+  "author": "inversestudio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/invstd/Figma-Plugin-Quickstart"
+  },
+  "bugs": {
+    "url": "https://github.com/invstd/Figma-Plugin-Quickstart/issues"
+  },
+  "homepage": "https://github.com/invstd/Figma-Plugin-Quickstart#readme",
+  "dependencies": {
+    "prompts": "^2.4.2",
+    "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/prompts": "^2.4.9",
+    "@types/fs-extra": "^11.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
