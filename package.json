@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Scaffold production-ready Figma plugins with native design system, AI-optimized documentation, and best practices",
   "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "bin": {
     "create-figma-plugin-native": "./bin/create-figma-plugin-native.js"
   },

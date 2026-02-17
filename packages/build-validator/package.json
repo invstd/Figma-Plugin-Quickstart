@@ -1,0 +1,36 @@
+{
+  "name": "@inversestudio/build-validator",
+  "version": "1.0.0",
+  "description": "AST-based validator that scans built Figma plugin files for design system violations",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "figma-validate-build": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "figma",
+    "plugin",
+    "validator",
+    "design-system",
+    "ci"
+  ],
+  "author": "inversestudio",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "validate": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "acorn": "^8.11.0",
+    "acorn-walk": "^8.3.0",
+    "glob": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

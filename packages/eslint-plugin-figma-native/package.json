@@ -1,0 +1,19 @@
+{
+  "name": "@inversestudio/eslint-plugin-figma-native",
+  "version": "1.0.0",
+  "description": "ESLint plugin to enforce Figma plugin design system rules",
+  "type": "module",
+  "main": "src/index.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "figma",
+    "design-system",
+    "linter"
+  ],
+  "author": "inversestudio",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  }
+}

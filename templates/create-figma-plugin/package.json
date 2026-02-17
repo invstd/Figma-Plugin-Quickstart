@@ -8,10 +8,13 @@
     "build:js": "build-figma-plugin --typecheck --minify",
     "watch": "npm run build:css && concurrently npm:watch:css npm:watch:js",
     "watch:css": "npx @tailwindcss/cli --input ./src/input.css --output ./src/output.css --watch",
-    "watch:js": "build-figma-plugin --typecheck --watch"
+    "watch:js": "build-figma-plugin --typecheck --watch",
+    "validate": "figma-validate-build dist --ts"
   },
   "figma-plugin": {
-    "editorType": ["figma"],
+    "editorType": [
+      "figma"
+    ],
     "id": "YOUR_PLUGIN_ID_HERE",
     "name": "My Plugin Name",
     "main": "src/main.ts",
@@ -33,6 +36,11 @@
     "@tailwindcss/cli": ">=4",
     "tailwindcss": ">=4",
     "typescript": ">=5",
-    "concurrently": ">=9"
+    "concurrently": ">=9",
+    "@inversestudio/build-validator": "file:../../packages/build-validator",
+    "@inversestudio/eslint-plugin-figma-native": "file:../../packages/eslint-plugin-figma-native",
+    "@typescript-eslint/parser": ">=6",
+    "@typescript-eslint/eslint-plugin": ">=6",
+    "eslint": ">=8"
   }
 }

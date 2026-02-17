@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": { "browser": true, "es2022": true },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "ecmaVersion": 2022, "sourceType": "module", "ecmaFeatures": { "jsx": true } },
+  "plugins": ["@inversestudio/figma-native"],
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "@inversestudio/figma-native/no-hardcoded-colors": "error",
+    "@inversestudio/figma-native/require-line-height": "warn",
+    "@inversestudio/figma-native/semantic-color-pairing": "warn",
+    "@inversestudio/figma-native/framework-spacing": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@typescript-eslint/recommended"]
+    }
+  ]
+}

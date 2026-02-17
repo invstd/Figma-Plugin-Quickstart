@@ -1,0 +1,25 @@
+{
+  "name": "@inversestudio/design-tokens",
+  "version": "1.0.0",
+  "description": "TypeScript types for Figma plugin design tokens (colors, typography, semantic pairing)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "keywords": ["figma", "plugin", "design-tokens", "typescript"],
+  "author": "inversestudio",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

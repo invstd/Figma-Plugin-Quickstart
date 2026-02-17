@@ -117,10 +117,18 @@ export async function create(projectName, options) {
   console.log(chalk.gray('  Copying template files...'));
   await fs.copy(templateDir, root);
 
-  // Update package.json with project name
+  // Update package.json with project name and resolve local package refs
   const pkgPath = path.join(root, 'package.json');
   const pkg = await fs.readJSON(pkgPath);
   pkg.name = targetDir;
+  // Replace file: refs with npm versions for scaffolded projects
+  if (pkg.devDependencies) {
+    for (const [key, val] of Object.entries(pkg.devDependencies)) {
+      if (typeof val === 'string' && val.startsWith('file:')) {
+        pkg.devDependencies[key] = '^1.0.0';
+      }
+    }
+  }
   await fs.writeJSON(pkgPath, pkg, { spaces: 2 });
 
   // Copy documentation if requested
